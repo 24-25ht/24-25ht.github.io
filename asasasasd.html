@@ -1,0 +1,800 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Noor - Islamic Knowledge Hub</title>  
+    <style>  
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }  
+
+        body {  
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);  
+            min-height: 100vh;  
+            padding: 20px;  
+            color: #333;  
+        }  
+
+        .container {  
+            max-width: 1200px;  
+            margin: 0 auto;  
+        }  
+
+        header {  
+            text-align: center;  
+            color: white;  
+            margin-bottom: 40px;  
+        }  
+
+        header h1 {  
+            font-size: 2.5em;  
+            margin-bottom: 10px;  
+        }  
+
+        header p {  
+            font-size: 1.1em;  
+            opacity: 0.9;  
+        }  
+
+        .setup-section {  
+            background: white;  
+            padding: 30px;  
+            border-radius: 10px;  
+            margin-bottom: 30px;  
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+        }  
+
+        .setup-section h2 {  
+            color: #667eea;  
+            margin-bottom: 20px;  
+            font-size: 1.3em;  
+        }  
+
+        .setup-section p {  
+            margin-bottom: 15px;  
+            line-height: 1.6;  
+            color: #666;  
+        }  
+
+        .input-group {  
+            margin-bottom: 15px;  
+            display: grid;  
+            grid-template-columns: 200px 1fr;  
+            gap: 15px;  
+            align-items: center;  
+        }  
+
+        .input-group label {  
+            font-weight: bold;  
+            color: #667eea;  
+            text-transform: uppercase;  
+            font-size: 0.9em;  
+        }  
+
+        .input-group input {  
+            padding: 10px;  
+            border: 2px solid #e0e0e0;  
+            border-radius: 5px;  
+            font-size: 0.95em;  
+            transition: border-color 0.3s;  
+        }  
+
+        .input-group input:focus {  
+            outline: none;  
+            border-color: #667eea;  
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);  
+        }  
+
+        .notes {  
+            background: #f5f5f5;  
+            padding: 15px;  
+            border-left: 4px solid #667eea;  
+            border-radius: 5px;  
+            margin-top: 20px;  
+            font-size: 0.9em;  
+            color: #555;  
+        }  
+
+        .cards-container {  
+            display: grid;  
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));  
+            gap: 25px;  
+            margin-bottom: 30px;  
+        }  
+
+        .card {  
+            background: white;  
+            border-radius: 10px;  
+            overflow: hidden;  
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);  
+            transition: transform 0.3s, box-shadow 0.3s;  
+        }  
+
+        .card:hover {  
+            transform: translateY(-5px);  
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);  
+        }  
+
+        .card-header {  
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);  
+            color: white;  
+            padding: 20px;  
+            font-size: 1.3em;  
+            font-weight: bold;  
+            display: flex;  
+            align-items: center;  
+            gap: 10px;  
+        }  
+
+        .card-content {  
+            padding: 25px;  
+        }  
+
+        .card-description {  
+            color: #666;  
+            margin-bottom: 20px;  
+            line-height: 1.6;  
+            font-size: 0.95em;  
+        }  
+
+        .api-status {  
+            background: #f5f5f5;  
+            padding: 15px;  
+            border-radius: 5px;  
+            margin-bottom: 20px;  
+            font-size: 0.9em;  
+        }  
+
+        .status-item {  
+            display: grid;  
+            grid-template-columns: 100px 1fr;  
+            margin-bottom: 10px;  
+            gap: 10px;  
+        }  
+
+        .status-label {  
+            font-weight: bold;  
+            color: #667eea;  
+        }  
+
+        .status-value {  
+            color: #666;  
+            word-break: break-all;  
+        }  
+
+        .status-value.ready {  
+            color: #27ae60;  
+            font-weight: bold;  
+        }  
+
+        .status-value.loading {  
+            color: #f39c12;  
+            font-weight: bold;  
+        }  
+
+        .status-value.error {  
+            color: #e74c3c;  
+            font-weight: bold;  
+        }  
+
+        .button-group {  
+            display: flex;  
+            gap: 10px;  
+            margin-bottom: 20px;  
+            flex-wrap: wrap;  
+        }  
+
+        button {  
+            flex: 1;  
+            min-width: 120px;  
+            padding: 12px 20px;  
+            border: none;  
+            border-radius: 5px;  
+            font-size: 1em;  
+            cursor: pointer;  
+            transition: all 0.3s;  
+            font-weight: bold;  
+            text-transform: uppercase;  
+            letter-spacing: 0.5px;  
+        }  
+
+        .btn-primary {  
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);  
+            color: white;  
+        }  
+
+        .btn-primary:hover {  
+            transform: scale(1.02);  
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);  
+        }  
+
+        .btn-secondary {  
+            background: #e0e0e0;  
+            color: #333;  
+        }  
+
+        .btn-secondary:hover {  
+            background: #d0d0d0;  
+        }  
+
+        .output-section {  
+            background: #f9f9f9;  
+            padding: 20px;  
+            border-radius: 5px;  
+            border-left: 4px solid #667eea;  
+            margin-bottom: 15px;  
+        }  
+
+        .output-section h3 {  
+            color: #667eea;  
+            margin-bottom: 10px;  
+            font-size: 0.95em;  
+            text-transform: uppercase;  
+        }  
+
+        .output-section p, .output-section div {  
+            color: #555;  
+            line-height: 1.8;  
+            word-wrap: break-word;  
+        }  
+
+        .output-section p strong {  
+            color: #333;  
+        }  
+
+        .copy-btn {  
+            padding: 5px 10px;  
+            font-size: 0.8em;  
+            background: #667eea;  
+            color: white;  
+            border: none;  
+            border-radius: 3px;  
+            cursor: pointer;  
+            margin-left: 10px;  
+        }  
+
+        .copy-btn:hover {  
+            background: #764ba2;  
+        }  
+
+        .audio-player {  
+            margin-top: 15px;  
+        }  
+
+        .audio-player audio {  
+            width: 100%;  
+            margin-bottom: 10px;  
+        }  
+
+        .loading {  
+            display: inline-block;  
+            animation: spin 1s linear infinite;  
+        }  
+
+        @keyframes spin {  
+            0% { transform: rotate(0deg); }  
+            100% { transform: rotate(360deg); }  
+        }  
+
+        footer {  
+            text-align: center;  
+            color: white;  
+            margin-top: 40px;  
+            font-size: 0.95em;  
+        }  
+
+        .error-message {  
+            background: #f8d7da;  
+            color: #721c24;  
+            padding: 15px;  
+            border-radius: 5px;  
+            margin-bottom: 15px;  
+            border: 1px solid #f5c6cb;  
+        }  
+
+        .success-message {  
+            background: #d4edda;  
+            color: #155724;  
+            padding: 15px;  
+            border-radius: 5px;  
+            margin-bottom: 15px;  
+            border: 1px solid #c3e6cb;  
+        }  
+
+        .divider {  
+            height: 2px;  
+            background: #e0e0e0;  
+            margin: 30px 0;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="container">  
+        <header>  
+            <h1>☪ Noor</h1>  
+            <p>Your Gateway to Islamic Knowledge</p>  
+        </header>  
+
+        <!-- Setup Section -->  
+        <div class="setup-section">  
+            <h2>⚙️ Setup</h2>  
+            <p>  
+                <strong>1)</strong> Many public APIs require keys and/or block browser CORS.<br>  
+                <strong>2)</strong> Put your server proxy URL below if needed (example: https://your-domain.com/proxy?url=).<br>  
+                <strong>3)</strong> Al Quran Cloud is public and works as-is; Sunnah.com and FitraHive require their API keys.  
+            </p>  
+
+            <div class="input-group">  
+                <label for="proxyUrl">PROXY</label>  
+                <input type="text" id="proxyUrl" placeholder="https://your-domain.com/proxy?url=" value="">  
+            </div>  
+
+            <div class="input-group">  
+                <label for="sunnahKey">SUNNAH.COM KEY</label>  
+                <input type="text" id="sunnahKey" placeholder="Enter your Sunnah.com API key here">  
+            </div>  
+
+            <div class="input-group">  
+                <label for="fitrahiveKey">FITRAHIVE KEY</label>  
+                <input type="text" id="fitrahiveKey" placeholder="Enter your FitraHive API key here">  
+            </div>  
+
+            <div class="notes">  
+                <strong>📝 Notes:</strong><br>  
+                • Al Quran Cloud endpoints are public; Sunnah.com and FitraHive may require keys.<br>  
+                • If you have exact API docs/URLs for FitraHive + Sunnah.com, configure them above and they'll work immediately.  
+            </div>  
+        </div>  
+
+        <div class="divider"></div>  
+
+        <!-- Main Cards -->  
+        <div class="cards-container">  
+            <!-- Verse of the Day (Al Quran Cloud) -->  
+            <div class="card">  
+                <div class="card-header">📖 Verse of the Day</div>  
+                <div class="card-content">  
+                    <p class="card-description">  
+                        Explore Quranic verses with translations, tafsir (commentary), and audio recitations from renowned reciters worldwide.  
+                    </p>  
+
+                    <div class="api-status">  
+                        <div class="status-item">  
+                            <span class="status-label">Status</span>  
+                            <span class="status-value ready" id="quran-status">Ready</span>  
+                        </div>  
+                        <div class="status-item">  
+                            <span class="status-label">Endpoint</span>  
+                            <span class="status-value" id="quran-endpoint">api.alquran.cloud</span>  
+                        </div>  
+                        <div class="status-item">  
+                            <span class="status-label">Provider</span>  
+                            <span class="status-value" id="quran-provider">Al Quran Cloud</span>  
+                        </div>  
+                        <div class="status-item">  
+                            <span class="status-label">Last Fetch</span>  
+                            <span class="status-value" id="quran-lastfetch">—</span>  
+                        </div>  
+                    </div>  
+
+                    <div class="button-group">  
+                        <button class="btn-primary" onclick="getRandomAyah()">Get Random Ayah</button>  
+                        <button class="btn-secondary" onclick="resetQuranOutput()">Reset</button>  
+                    </div>  
+
+                    <div id="quran-output">  
+                        <p style="color: #999; text-align: center;">Results will appear here...</p>  
+                    </div>  
+                </div>  
+            </div>  
+
+            <!-- Daily Dua (FitraHive - Private) -->  
+            <div class="card">  
+                <div class="card-header">🤲 Daily Dua</div>  
+                <div class="card-content">  
+                    <p class="card-description">  
+                        Discover authentic supplications with Arabic text, transliteration, translations, and virtues from trusted Islamic sources.  
+                    </p>  
+
+                    <div class="api-status">  
+                        <div class="status-item">  
+                            <span class="status-label">Status</span>  
+                            <span class="status-value" id="dua-status">Ready</span>  
+                        </div>  
+                        <div class="status-item">  
+                            <span class="status-label">Endpoint</span>  
+                            <span class="status-value" id="dua-endpoint">FitraHive API</span>  
+                        </div>  
+                        <div class="status-item">  
+                            <span class="status-label">Provider</span>  
+                            <span class="status-value" id="dua-provider">FitraHive</span>  
+                        </div>  
+                        <div class="status-item">  
+                            <span class="status-label">Last Fetch</span>  
+                            <span class="status-value" id="dua-lastfetch">—</span>  
+                        </div>  
+                    </div>  
+
+                    <div class="button-group">  
+                        <button class="btn-primary" onclick="getRandomDua()">Get Random Dua</button>  
+                        <button class="btn-secondary" onclick="resetDuaOutput()">Reset</button>  
+                    </div>  
+
+                    <div id="dua-output">  
+                        <p style="color: #999; text-align: center;">Results will appear here...</p>  
+                    </div>  
+                </div>  
+            </div>  
+
+            <!-- Hadith of the Day (Sunnah.com - Private) -->  
+            <div class="card">  
+                <div class="card-header">📜 Hadith of the Day</div>  
+                <div class="card-content">  
+                    <p class="card-description">  
+                        Read authentic prophetic traditions from major collections including Sahih Bukhari, Muslim, and Riyad as-Salihin.  
+                    </p>  
+
+                    <div class="api-status">  
+                        <div class="status-item">  
+                            <span class="status-label">Status</span>  
+                            <span class="status-value" id="hadith-status">Ready</span>  
+                        </div>  
+                        <div class="status-item">  
+                            <span class="status-label">Endpoint</span>  
+                            <span class="status-value" id="hadith-endpoint">Sunnah.com API</span>  
+                        </div>  
+                        <div class="status-item">  
+                            <span class="status-label">Provider</span>  
+                            <span class="status-value" id="hadith-provider">Sunnah.com</span>  
+                        </div>  
+                        <div class="status-item">  
+                            <span class="status-label">Last Fetch</span>  
+                            <span class="status-value" id="hadith-lastfetch">—</span>  
+                        </div>  
+                    </div>  
+
+                    <div class="button-group">  
+                        <button class="btn-primary" onclick="getRandomHadith()">Get Random Hadith</button>  
+                        <button class="btn-secondary" onclick="resetHadithOutput()">Reset</button>  
+                    </div>  
+
+                    <div id="hadith-output">  
+                        <p style="color: #999; text-align: center;">Results will appear here...</p>  
+                    </div>  
+                </div>  
+            </div>  
+        </div>  
+
+        <footer>  
+            <p>Made with ❤️ for the Muslim Ummah</p>  
+            <p>May Allah accept our efforts and guide us all.</p>  
+        </footer>  
+    </div>  
+
+    <script>  
+        // API Configuration  
+        const config = {  
+            getProxy: () => document.getElementById('proxyUrl').value,  
+            getSunnahKey: () => document.getElementById('sunnahKey').value,  
+            getFitrahiveKey: () => document.getElementById('fitrahiveKey').value  
+        };  
+
+        // Surah names for reference  
+        const surahNames = [  
+            'Al-Fatiha', 'Al-Baqarah', 'Ali Imran', 'An-Nisa', 'Al-Ma\'idah',  
+            'Al-An\'am', 'Al-A\'raf', 'Al-Anfal', 'At-Tawbah', 'Yunus',  
+            'Hud', 'Yusuf', 'Ar-Ra\'d', 'Ibrahim', 'Al-Hijr',  
+            'An-Nahl', 'Al-Isra', 'Al-Kahf', 'Maryam', 'Ta-Ha',  
+            'Al-Anbiya', 'Al-Hajj', 'Al-Mu\'minun', 'An-Nur', 'Al-Furqan',  
+            'Ash-Shu\'ara', 'An-Naml', 'Al-Qasas', 'Al-Ankabut', 'Ar-Rum',  
+            'Luqman', 'As-Sajdah', 'Al-Ahzab', 'Saba', 'Fatir',  
+            'Ya-Sin', 'As-Saffat', 'Sad', 'Az-Zumar', 'Ghafir',  
+            'Fussilat', 'Ash-Shura', 'Az-Zukhruf', 'Ad-Dukhan', 'Al-Jathiyah',  
+            'Al-Ahqaf', 'Muhammad', 'Al-Fath', 'Al-Hujurat', 'Qaf',  
+            'Ad-Dhariyat', 'At-Tur', 'An-Najm', 'Al-Qamar', 'Ar-Rahman',  
+            'Al-Waqi\'ah', 'Al-Hadid', 'Al-Mujadilah', 'Al-Hashr', 'Al-Mumtahanah',  
+            'As-Saff', 'Al-Jumu\'ah', 'Al-Munafiqun', 'At-Taghabun', 'At-Talaq',  
+            'At-Tahrim', 'Al-Mulk', 'Al-Qalam', 'Al-Haqqah', 'Al-Ma\'arij',  
+            'Nuh', 'Al-Jinn', 'Al-Muzzammil', 'Al-Muddassir', 'Al-Qiyamah',  
+            'Ad-Dahr', 'Al-Mursalat', 'An-Naba', 'An-Nazi\'at', 'Abasa',  
+            'At-Takwir', 'Al-Infitar', 'Al-Mutaffifin', 'Al-Inshiqaq', 'Al-Buruj',  
+            'At-Tariq', 'Al-A\'la', 'Al-Ghashiyah', 'Al-Fajr', 'Al-Balad',  
+            'Ash-Shams', 'Al-Lail', 'Ad-Duha', 'Ash-Sharh', 'At-Tin',  
+            'Al-Alaq', 'Al-Qadr', 'Al-Bayyinah', 'Az-Zalzalah', 'Al-Adiyat',  
+            'Al-Qariah', 'At-Takathur', 'Al-Asr', 'Al-Humazah', 'Al-Fil',  
+            'Quraish', 'Al-Ma\'un', 'Al-Kawthar', 'Al-Kafirun', 'An-Nasr',  
+            'Al-Masad', 'Al-Ikhlas', 'Al-Falaq', 'An-Nas'  
+        ];  
+
+        // ==================== QURAN API (PUBLIC) ====================  
+        async function getRandomAyah() {  
+            const randomSurah = Math.floor(Math.random() * 114) + 1;  
+            const surahData = {  
+                1: 7, 2: 286, 3: 200, 4: 176, 5: 120, 6: 165, 7: 206, 8: 75,  
+                9: 129, 10: 109, 11: 123, 12: 111, 13: 43, 14: 52, 15: 99,  
+                16: 128, 17: 111, 18: 110, 19: 98, 20: 135, 21: 112, 22: 78,  
+                23: 118, 24: 64, 25: 77, 26: 227, 27: 93, 28: 88, 29: 69,  
+                30: 60, 31: 34, 32: 30, 33: 73, 34: 54, 35: 45, 36: 83,  
+                37: 182, 38: 88, 39: 75, 40: 85, 41: 54, 42: 53, 43: 89,  
+                44: 59, 45: 37, 46: 35, 47: 38, 48: 29, 49: 18, 50: 45,  
+                51: 60, 52: 49, 53: 62, 54: 55, 55: 78, 56: 96, 57: 29,  
+                58: 22, 59: 24, 60: 13, 61: 14, 62: 11, 63: 11, 64: 18,  
+                65: 12, 66: 12, 67: 30, 68: 52, 69: 52, 70: 44, 71: 28,  
+                72: 28, 73: 20, 74: 56, 75: 40, 76: 31, 77: 50, 78: 40,  
+                79: 46, 80: 42, 81: 29, 82: 19, 83: 36, 84: 25, 85: 22,  
+                86: 17, 87: 19, 88: 26, 89: 30, 90: 20, 91: 15, 92: 21,  
+                93: 11, 94: 8, 95: 8, 96: 19, 97: 5, 98: 8, 99: 8,  
+                100: 11, 101: 11, 102: 8, 103: 3, 104: 9, 105: 5, 106: 4,  
+                107: 7, 108: 3, 109: 6, 110: 3, 111: 5, 112: 4, 113: 5, 114: 6  
+            };  
+            const randomAyah = Math.floor(Math.random() * surahData[randomSurah]) + 1;  
+
+            await fetchQuranAyah(randomSurah, randomAyah);  
+        }  
+
+        async function fetchQuranAyah(surah, ayah) {  
+            const output = document.getElementById('quran-output');  
+            const statusEl = document.getElementById('quran-status');  
+            const lastFetchEl = document.getElementById('quran-lastfetch');  
+            
+            statusEl.textContent = 'Loading...';  
+            statusEl.className = 'status-value loading';  
+
+            try {  
+                const proxy = config.getProxy();  
+                const url = `https://api.alquran.cloud/v1/ayah/${surah}:${ayah}/editions/en.asad,ar.alafasy`;  
+                const fetchUrl = proxy ? proxy + encodeURIComponent(url) : url;  
+
+                const response = await fetch(fetchUrl);  
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);  
+
+                const data = await response.json();  
+                const ayahData = data.data[0];  
+                const recitation = data.data[1];  
+
+                output.innerHTML = `  
+                    <div class="output-section">  
+                        <h3>🕌 Surah ${surahNames[surah - 1]} (Chapter ${surah})</h3>  
+                        <p><strong>Verse:</strong> ${ayah}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>Arabic Text</h3>  
+                        <p style="font-size: 1.3em; line-height: 2; direction: rtl; text-align: right;">  
+                            ${ayahData.text}  
+                        </p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>English Translation (Asad)</h3>  
+                        <p>${ayahData.surah.englishName}</p>  
+                        <p>${ayahData.numberInSurah}. ${ayahData.text}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>🔊 Audio Recitation (Al-Afasy)</h3>  
+                        <div class="audio-player">  
+                            <audio controls>  
+                                <source src="${recitation.audioUrl}" type="audio/mpeg">  
+                                Your browser does not support the audio element.  
+                            </audio>  
+                        </div>  
+                        <p><strong>Reciter:</strong> ${recitation.edition.englishName}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <p><strong>Full Reference:</strong> ${ayahData.surah.englishName} ${ayahData.numberInSurah}</p>  
+                    </div>  
+                `;  
+
+                statusEl.textContent = 'Ready';  
+                statusEl.className = 'status-value ready';  
+                lastFetchEl.textContent = new Date().toLocaleTimeString();  
+
+            } catch (error) {  
+                output.innerHTML = `<div class="error-message">⚠️ Error: ${error.message}</div>`;  
+                statusEl.textContent = 'Error';  
+                statusEl.className = 'status-value error';  
+                lastFetchEl.textContent = 'Failed';  
+            }  
+        }  
+
+        function resetQuranOutput() {  
+            document.getElementById('quran-output').innerHTML = '<p style="color: #999; text-align: center;">Results will appear here...</p>';  
+        }  
+
+        // ==================== DUA API (FITRAHIVE - PRIVATE) ====================  
+        async function getRandomDua() {  
+            const output = document.getElementById('dua-output');  
+            const statusEl = document.getElementById('dua-status');  
+            const lastFetchEl = document.getElementById('dua-lastfetch');  
+
+            const apiKey = config.getFitrahiveKey();  
+             if (!apiKey) {  
+                output.innerHTML = `<div class="error-message">⚠️ FitraHive API key not configured. Add it in the Setup section above.</div>`;  
+                statusEl.textContent = 'Unconfigured';  
+                statusEl.className = 'status-value error';  
+                return;  
+            }  
+
+            statusEl.textContent = 'Loading...';  
+            statusEl.className = 'status-value loading';  
+
+            try {  
+                const proxy = config.getProxy();  
+                const url = `https://api.fitrahive.com/v1/dua/random`; // Replace with actual FitraHive endpoint  
+                const fetchUrl = proxy ? proxy + encodeURIComponent(url) : url;  
+
+                const response = await fetch(fetchUrl, {  
+                    method: 'GET',  
+                    headers: {  
+                        'Authorization': `Bearer ${apiKey}`,  
+                        'Content-Type': 'application/json'  
+                    }  
+                });  
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);  
+
+                const data = await response.json();  
+                const dua = data.data || data;  
+
+                output.innerHTML = `  
+                    <div class="output-section">  
+                        <h3>🤲 Random Dua</h3>  
+                        <p><strong>Title:</strong> ${dua.title || dua.name || 'Dua'}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>Arabic Text</h3>  
+                        <p style="font-size: 1.2em; line-height: 2; direction: rtl; text-align: right;">  
+                            ${dua.arabic || dua.text || 'No Arabic text available'}  
+                        </p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>Transliteration</h3>  
+                        <p>${dua.transliteration || 'No transliteration available'}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>English Translation</h3>  
+                        <p>${dua.translation || dua.english || 'No translation available'}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>📚 Virtues & References</h3>  
+                        <p>${dua.virtues || dua.reference || 'No additional information available'}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <p><strong>Source:</strong> ${dua.source || 'FitraHive'}</p>  
+                    </div>  
+                `;  
+
+                statusEl.textContent = 'Ready';  
+                statusEl.className = 'status-value ready';  
+                lastFetchEl.textContent = new Date().toLocaleTimeString();  
+
+            } catch (error) {  
+                output.innerHTML = `<div class="error-message">⚠️ Error: ${error.message}<br>Make sure your FitraHive API key is correct and configured.</div>`;  
+                statusEl.textContent = 'Error';  
+                statusEl.className = 'status-value error';  
+                lastFetchEl.textContent = 'Failed';  
+            }  
+        }  
+
+        function resetDuaOutput() {  
+            document.getElementById('dua-output').innerHTML = '<p style="color: #999; text-align: center;">Results will appear here...</p>';  
+        }  
+
+        // ==================== HADITH API (SUNNAH.COM - PRIVATE) ====================  
+        async function getRandomHadith() {  
+            const output = document.getElementById('hadith-output');  
+            const statusEl = document.getElementById('hadith-status');  
+            const lastFetchEl = document.getElementById('hadith-lastfetch');  
+
+            if (!apiKey) {  
+                output.innerHTML = `<div class="error-message">⚠️ Sunnah.com API key not configured. Add it in the Setup section above.</div>`;  
+                statusEl.textContent = 'Unconfigured';  
+                statusEl.className = 'status-value error';  
+                return;  
+            }  
+
+            statusEl.textContent = 'Loading...';  
+            statusEl.className = 'status-value loading';  
+
+            try {  
+                const proxy = config.getProxy();  
+                const randomCollection = ['sahih-bukhari', 'sahih-muslim', 'riyad-as-salihin'][Math.floor(Math.random() * 3)];  
+                const randomHadithNum = Math.floor(Math.random() * 7000) + 1;  
+                const url = `https://api.sunnah.com/v1/hadith/${randomCollection}/${randomHadithNum}`; // Replace with actual Sunnah.com endpoint  
+                const fetchUrl = proxy ? proxy + encodeURIComponent(url) : url;  
+
+                const response = await fetch(fetchUrl, {  
+                    method: 'GET',  
+                    headers: {  
+                        'Authorization': `Bearer ${apiKey}`,  
+                        'Content-Type': 'application/json'  
+                    }  
+                });  
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);  
+
+                const data = await response.json();  
+                const hadith = data.data || data;  
+
+                output.innerHTML = `  
+                    <div class="output-section">  
+                        <h3>📜 Hadith of the Day</h3>  
+                        <p><strong>Collection:</strong> ${hadith.collection || randomCollection}</p>  
+                        <p><strong>Hadith #:</strong> ${hadith.hadithNumber || randomHadithNum}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>Arabic Text</h3>  
+                        <p style="font-size: 1.1em; line-height: 2; direction: rtl; text-align: right;">  
+                            ${hadith.arabic || hadith.text || 'No Arabic text available'}  
+                        </p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>English Translation</h3>  
+                        <p>${hadith.englishNarration || hadith.translation || hadith.english || 'No translation available'}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>📖 Narrator</h3>  
+                        <p><strong>Narrator:</strong> ${hadith.narrator || 'Unknown'}</p>  
+                        <p><strong>Grade:</strong> ${hadith.grade || hadith.authenticity || 'Not specified'}</p>  
+                    </div>  
+                    <div class="output-section">  
+                        <h3>📚 Source & Reference</h3>  
+                        <p><strong>Source:</strong> ${hadith.source || 'Sunnah.com'}</p>  
+                        <p><strong>Book:</strong> ${hadith.book || 'Unknown'}</p>  
+                        <p><strong>Chapter:</strong> ${hadith.chapter || 'Unknown'}</p>  
+                    </div>  
+                `;  
+
+                statusEl.textContent = 'Ready';  
+                statusEl.className = 'status-value ready';  
+                lastFetchEl.textContent = new Date().toLocaleTimeString();  
+
+            } catch (error) {  
+                output.innerHTML = `<div class="error-message">⚠️ Error: ${error.message}<br>Make sure your Sunnah.com API key is correct and configured.</div>`;  
+                statusEl.textContent = 'Error';  
+                statusEl.className = 'status-value error';  
+                lastFetchEl.textContent = 'Failed';  
+            }  
+                }
+
+        function resetHadithOutput() {
+            document.getElementById('hadith-output').innerHTML = '<p style="color: #999; text-align: center;">Results will appear here...</p>';
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ NQDH Application Loaded');
+            console.log('🔧 Configure your API keys in the Setup section');
+            
+            // Load saved settings from localStorage
+            const savedProxy = localStorage.getItem('proxyUrl');
+            const savedSunnahKey = localStorage.getItem('sunnahKey');
+            const savedFitrahiveKey = localStorage.getItem('fitrahiveKey');
+
+            if (savedProxy) document.getElementById('proxyUrl').value = savedProxy;
+            if (savedSunnahKey) document.getElementById('sunnahKey').value = savedSunnahKey;
+            if (savedFitrahiveKey) document.getElementById('fitrahiveKey').value = savedFitrahiveKey;
+
+            // Save settings on input change
+            document.getElementById('proxyUrl').addEventListener('change', function() {
+                localStorage.setItem('proxyUrl', this.value);
+                console.log('✅ Proxy URL saved');
+            });
+
+            document.getElementById('sunnahKey').addEventListener('change', function() {
+                localStorage.setItem('sunnahKey', this.value);
+                console.log('✅ Sunnah.com key saved');
+            });
+
+            document.getElementById('fitrahiveKey').addEventListener('change', function() {
+                localStorage.setItem('fitrahiveKey', this.value);
+                console.log('✅ FitraHive key saved');
+            });
+        });
+    </script>
+</body>
+</html>  
+
+        
