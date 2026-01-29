@@ -1,0 +1,671 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Noor - Islamic Knowledge Hub</title>  
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">  
+    <style>  
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }  
+
+        :root {  
+            --primary: #1a5f3f;  
+            --primary-dark: #0f3d28;  
+            --primary-light: #2d8659;  
+            --accent: #d4af37;  
+            --accent-light: #f0d97a;  
+            --bg-dark: #0a1612;  
+            --bg-card: #ffffff;  
+            --text-primary: #1a1a1a;  
+            --text-secondary: #666;  
+            --text-light: #999;  
+            --shadow: rgba(0, 0, 0, 0.1);  
+            --shadow-heavy: rgba(0, 0, 0, 0.2);  
+        }  
+
+        body {  
+            font-family: 'Inter', sans-serif;  
+            background: linear-gradient(135deg, #0a1612 0%, #1a5f3f 100%);  
+            min-height: 100vh;  
+            color: var(--text-primary);  
+            padding: 20px;  
+            position: relative;  
+            overflow-x: hidden;  
+        }  
+
+        body::before {  
+            content: '';  
+            position: fixed;  
+            top: 0;  
+            left: 0;  
+            right: 0;  
+            bottom: 0;  
+            background:   
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),  
+                radial-gradient(circle at 80% 70%, rgba(45, 134, 89, 0.1) 0%, transparent 50%);  
+            pointer-events: none;  
+            z-index: 0;  
+        }  
+
+        .container {  
+            max-width: 1400px;  
+            margin: 0 auto;  
+            position: relative;  
+            z-index: 1;  
+        }  
+
+        header {  
+            text-align: center;  
+            margin-bottom: 50px;  
+            padding: 30px 20px;  
+            background: rgba(255, 255, 255, 0.05);  
+            backdrop-filter: blur(10px);  
+            border-radius: 20px;  
+            border: 1px solid rgba(255, 255, 255, 0.1);  
+        }  
+
+        h1 {  
+            font-family: 'Amiri', serif;  
+            font-size: 3.5rem;  
+            color: var(--accent);  
+            margin-bottom: 10px;  
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);  
+            letter-spacing: 2px;  
+        }  
+
+        .subtitle {  
+            font-size: 1.2rem;  
+            color: rgba(255, 255, 255, 0.8);  
+            font-weight: 300;  
+        }  
+
+        .api-grid {  
+            display: grid;  
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));  
+            gap: 30px;  
+            margin-bottom: 40px;  
+        }  
+
+        .api-card {  
+            background: var(--bg-card);  
+            border-radius: 20px;  
+            padding: 35px;  
+            box-shadow: 0 10px 40px var(--shadow-heavy);  
+            transition: transform 0.3s ease, box-shadow 0.3s ease;  
+            border-top: 4px solid var(--primary);  
+            position: relative;  
+            overflow: hidden;  
+        }  
+
+        .api-card::before {  
+            content: '';  
+            position: absolute;  
+            top: 0;  
+            right: 0;  
+            width: 150px;  
+            height: 150px;  
+            background: linear-gradient(135deg, var(--accent-light) 0%, transparent 70%);  
+            opacity: 0.1;  
+            border-radius: 0 20px 0 100%;  
+        }  
+
+        .api-card:hover {  
+            transform: translateY(-5px);  
+            box-shadow: 0 15px 50px var(--shadow-heavy);  
+        }  
+
+        .api-header {  
+            display: flex;  
+            align-items: center;  
+            margin-bottom: 25px;  
+            gap: 15px;  
+        }  
+
+        .api-icon {  
+            width: 60px;  
+            height: 60px;  
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);  
+            border-radius: 15px;  
+            display: flex;  
+            align-items: center;  
+            justify-content: center;  
+            font-size: 28px;  
+            color: white;  
+            flex-shrink: 0;  
+            box-shadow: 0 5px 15px rgba(26, 95, 63, 0.3);  
+        }  
+
+        .api-title {  
+            font-family: 'Amiri', serif;  
+            font-size: 1.8rem;  
+            color: var(--primary);  
+            font-weight: 700;  
+        }  
+
+        .api-description {  
+            color: var(--text-secondary);  
+            line-height: 1.6;  
+            margin-bottom: 25px;  
+            font-size: 0.95rem;  
+        }  
+
+        .btn {  
+            width: 100%;  
+            padding: 15px 30px;  
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);  
+            color: white;  
+            border: none;  
+            border-radius: 12px;  
+            font-size: 1rem;  
+            font-weight: 600;  
+            cursor: pointer;  
+            transition: all 0.3s ease;  
+            box-shadow: 0 5px 15px rgba(26, 95, 63, 0.3);  
+            position: relative;  
+            overflow: hidden;  
+        }  
+
+        .btn::before {  
+            content: '';  
+            position: absolute;  
+            top: 50%;  
+            left: 50%;  
+            width: 0;  
+            height: 0;  
+            border-radius: 50%;  
+            background: rgba(255, 255, 255, 0.2);  
+            transform: translate(-50%, -50%);  
+            transition: width 0.6s, height 0.6s;  
+        }  
+
+        .btn:hover::before {  
+            width: 300px;  
+            height: 300px;  
+        }  
+
+        .btn:hover {  
+            transform: translateY(-2px);  
+            box-shadow: 0 8px 20px rgba(26, 95, 63, 0.4);  
+        }  
+
+        .btn:active {  
+            transform: translateY(0);  
+        }  
+
+        .content-display {  
+            background: var(--bg-card);  
+            border-radius: 20px;  
+            padding: 40px;  
+            margin-top: 30px;  
+            box-shadow: 0 10px 40px var(--shadow-heavy);  
+            min-height: 400px;  
+            display: none;  
+            animation: fadeIn 0.5s ease;  
+        }  
+
+        .content-display.active {  
+            display: block;  
+        }  
+
+        @keyframes fadeIn {  
+            from {  
+                opacity: 0;  
+                transform: translateY(20px);  
+            }  
+            to {  
+                opacity: 1;  
+                transform: translateY(0);  
+            }  
+        }  
+
+        .content-header {  
+            border-bottom: 3px solid var(--accent);  
+            padding-bottom: 20px;  
+            margin-bottom: 30px;  
+        }  
+
+        .content-title {  
+            font-family: 'Amiri', serif;  
+            font-size: 2rem;  
+            color: var(--primary);  
+            margin-bottom: 10px;  
+        }  
+
+        .content-meta {  
+            color: var(--text-light);  
+            font-size: 0.9rem;  
+        }  
+
+        .arabic-text {  
+            font-family: 'Amiri', serif;  
+            font-size: 2.2rem;  
+            line-height: 2.2;  
+            color: var(--primary-dark);  
+            text-align: right;  
+            direction: rtl;  
+            margin: 25px 0;  
+            padding: 25px;  
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(26, 95, 63, 0.05) 100%);  
+            border-radius: 15px;  
+            border-right: 4px solid var(--accent);  
+        }  
+
+        .transliteration {  
+            font-style: italic;  
+            color: var(--text-secondary);  
+            margin: 20px 0;  
+            padding: 20px;  
+            background: rgba(0, 0, 0, 0.02);  
+            border-radius: 10px;  
+            border-left: 3px solid var(--primary-light);  
+        }  
+
+        .translation {  
+            font-size: 1.1rem;  
+            line-height: 1.8;  
+            color: var(--text-primary);  
+            margin: 20px 0;  
+            padding: 20px;  
+            background: rgba(26, 95, 63, 0.03);  
+            border-radius: 10px;  
+        }  
+
+        .section {  
+            margin: 25px 0;  
+            padding: 20px;  
+            background: rgba(0, 0, 0, 0.02);  
+            border-radius: 12px;  
+        }  
+
+        .section-title {  
+            font-weight: 600;  
+            color: var(--primary);  
+            margin-bottom: 12px;  
+            font-size: 1.1rem;  
+            display: flex;  
+            align-items: center;  
+            gap: 10px;  
+        }  
+
+        .section-title::before {  
+            content: '';  
+            width: 4px;  
+            height: 20px;  
+            background: var(--accent);  
+            border-radius: 2px;  
+        }  
+
+        .section-content {  
+            color: var(--text-secondary);  
+            line-height: 1.7;  
+        }  
+
+        .loading {  
+            text-align: center;  
+            padding: 60px;  
+            color: var(--text-light);  
+            font-size: 1.1rem;  
+        }  
+
+        .spinner {  
+            border: 3px solid rgba(26, 95, 63, 0.1);  
+            border-top: 3px solid var(--primary);  
+            border-radius: 50%;  
+            width: 50px;  
+            height: 50px;  
+            animation: spin 1s linear infinite;  
+            margin: 20px auto;  
+        }  
+
+        @keyframes spin {  
+            0% { transform: rotate(0deg); }  
+            100% { transform: rotate(360deg); }  
+        }  
+
+        .audio-player {  
+            margin: 25px 0;  
+            padding: 20px;  
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);  
+            border-radius: 15px;  
+            display: flex;  
+            align-items: center;  
+            gap: 15px;  
+            box-shadow: 0 5px 20px rgba(26, 95, 63, 0.3);  
+        }  
+
+        .audio-player audio {  
+            width: 100%;  
+            height: 40px;  
+            border-radius: 10px;  
+        }  
+
+        .badge {  
+            display: inline-block;  
+            padding: 5px 12px;  
+            background: var(--accent);  
+            color: white;  
+            border-radius: 20px;  
+            font-size: 0.85rem;  
+            font-weight: 600;  
+            margin: 5px 5px 5px 0;  
+        }  
+
+        .error {  
+            background: #fee;  
+            border: 1px solid #fcc;  
+            border-radius: 10px;  
+            padding: 20px;  
+            color: #c33;  
+            margin: 20px 0;  
+        }  
+
+        @media (max-width: 768px) {  
+            h1 {  
+                font-size: 2.5rem;  
+            }  
+
+            .api-grid {  
+                grid-template-columns: 1fr;  
+            }  
+
+            .arabic-text {  
+                font-size: 1.8rem;  
+            }  
+
+            .content-display {  
+                padding: 25px;  
+            }  
+        }  
+
+        footer {  
+            text-align: center;  
+            margin-top: 60px;  
+            padding: 30px;  
+            color: rgba(255, 255, 255, 0.6);  
+            background: rgba(255, 255, 255, 0.05);  
+            backdrop-filter: blur(10px);  
+            border-radius: 15px;  
+            border: 1px solid rgba(255, 255, 255, 0.1);  
+        }  
+
+        .reference {  
+            font-size: 0.9rem;  
+            color: var(--text-light);  
+            margin-top: 15px;  
+            padding-top: 15px;  
+            border-top: 1px solid rgba(0, 0, 0, 0.1);  
+            font-style: italic;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="container">  
+        <header>  
+            <h1>☪ Noor</h1>  
+            <p class="subtitle">Your Gateway to Islamic Knowledge</p>  
+        </header>  
+
+        <div class="api-grid">  
+            <!-- Dua & Dhikr Card -->  
+            <div class="api-card">  
+                <div class="api-header">  
+                    <div class="api-icon">🤲</div>  
+                    <h2 class="api-title">Daily Dua</h2>  
+                </div>  
+                <p class="api-description">  
+                    Discover authentic supplications with Arabic text, transliteration, translations, and virtues from trusted Islamic sources.  
+                </p>  
+                <button class="btn" onclick="fetchRandomDua()">Get Random Dua</button>  
+            </div>  
+
+            <!-- Quran Card -->  
+            <div class="api-card">  
+                <div class="api-header">  
+                    <div class="api-icon">📖</div>  
+                    <h2 class="api-title">Verse of the Day</h2>  
+                </div>  
+                <p class="api-description">  
+                    Explore Quranic verses with translations, tafsir (commentary), and audio recitations from renowned reciters worldwide.  
+                </p>  
+                <button class="btn" onclick="fetchRandomAyah()">Get Random Ayah</button>  
+            </div>  
+
+            <!-- Hadith Card -->  
+            <div class="api-card">  
+                <div class="api-header">  
+                    <div class="api-icon">📜</div>  
+                    <h2 class="api-title">Hadith of the Day</h2>  
+                </div>  
+                <p class="api-description">  
+                    Read authentic prophetic traditions from major collections including Sahih Bukhari, Muslim, and Riyad as-Salihin.  
+                </p>  
+                <button class="btn" onclick="fetchRandomHadith()">Get Random Hadith</button>  
+            </div>  
+        </div>  
+
+        <!-- Content Display Area -->  
+        <div id="contentDisplay" class="content-display"></div>  
+
+        <footer>  
+            <p>Made with ❤️ for the Muslim Ummah</p>  
+            <p style="margin-top: 10px; font-size: 0.9rem;">May Allah accept our efforts and guide us all.</p>  
+        </footer>  
+    </div>  
+
+    <script>  
+        // API Base URLs - REPLACE THESE WITH YOUR ACTUAL API URLS  
+        const API_URLS = {  
+            dua: 'YOUR_FITRAHIVE_API_URL_HERE',  
+            quran: 'https://alquran.cloud/api',  
+            hadith: 'YOUR_SUNNAH_API_URL_HERE'  
+        };  
+
+        const contentDisplay = document.getElementById('contentDisplay');  
+
+        // Utility function to show loading state  
+        function showLoading() {  
+            contentDisplay.className = 'content-display active';  
+            contentDisplay.innerHTML = `  
+                <div class="loading">  
+                    <div class="spinner"></div>  
+                    <p>Loading content...</p>  
+                </div>  
+            `;  
+        }  
+
+        // Utility function to show error  
+        function showError(message) {  
+            contentDisplay.className = 'content-display active';  
+            contentDisplay.innerHTML = `  
+                <div class="error">  
+                    <strong>Error:</strong> ${message}  
+                </div>  
+            `;  
+        }  
+
+        // Fetch Random Dua  
+        async function fetchRandomDua() {  
+            showLoading();  
+            
+            try {  
+                // Example endpoint - adjust based on actual FitraHive API  
+                const response = await fetch(`${API_URLS.dua}/random`);  
+                
+                if (!response.ok) throw new Error('Failed to fetch dua');  
+                
+                const data = await response.json();  
+                
+                contentDisplay.innerHTML = `  
+                    <div class="content-header">  
+                        <h3 class="content-title">🤲 ${data.category || 'Daily Dua'}</h3>  
+                        <p class="content-meta">${data.occasion || 'Authentic Supplication'}</p>  
+                    </div>  
+                    
+                    <div class="arabic-text">${data.arabic || data.text_arabic}</div>  
+                    
+                    ${data.transliteration ? `  
+                        <div class="transliteration">  
+                            <strong>Transliteration:</strong><br>  
+                            ${data.transliteration}  
+                        </div>  
+                    ` : ''}  
+                    
+                    <div class="translation">  
+                        <strong>Translation:</strong><br>  
+                        ${data.translation || data.translation_en}  
+                    </div>  
+                    
+                    ${data.virtue || data.fawaid ? `  
+                        <div class="section">  
+                            <div class="section-title">✨ Virtue & Benefits</div>  
+                            <div class="section-content">${data.virtue || data.fawaid}</div>  
+                        </div>  
+                    ` : ''}  
+                    
+                    ${data.reference || data.source ? `  
+                        <div class="reference">  
+                            📚 Reference: ${data.reference || data.source}  
+                        </div>  
+                    ` : ''}  
+                `;  
+            } catch (error) {  
+                showError('Could not load dua. Please check your API configuration. ' + error.message);  
+            }  
+        }  
+
+        // Fetch Random Ayah  
+        async function fetchRandomAyah() {  
+            showLoading();  
+            
+            try {  
+                // Generate random surah (1-114) and ayah  
+                const randomSurah = Math.floor(Math.random() * 114) + 1;  
+                
+                // Example endpoint - adjust based on actual Al Quran Cloud API  
+                const response = await fetch(`${API_URLS.quran}/surah/${randomSurah}`);  
+                
+                if (!response.ok) throw new Error('Failed to fetch ayah');  
+                
+                const data = await response.json();  
+                const ayahs = data.data.ayahs || data.data.verses;  
+                const randomAyah = ayahs[Math.floor(Math.random() * ayahs.length)];  
+                
+                contentDisplay.innerHTML = `  
+                    <div class="content-header">  
+                        <h3 class="content-title">📖 Surah ${data.data.englishName || data.data.name}</h3>  
+                        <p class="content-meta">  
+                            ${data.data.englishNameTranslation || ''} |   
+                            Verse ${randomAyah.numberInSurah} |   
+                            ${data.data.revelationType || ''}  
+                        </p>  
+                    </div>  
+                    
+                    <div class="arabic-text">${randomAyah.text}</div>  
+                    
+                    <div class="translation">  
+                        <strong>Translation:</strong><br>  
+                        ${randomAyah.translation || randomAyah.text_english || 'Translation not available'}  
+                    </div>  
+                    
+                    ${randomAyah.audio ? `  
+                        <div class="audio-player">  
+                            <audio controls>  
+                                <source src="${randomAyah.audio}" type="audio/mp3">  
+                                Your browser does not support the audio element.  
+                            </audio>  
+                        </div>  
+                    ` : ''}  
+                    
+                    ${randomAyah.tafsir ? `  
+                        <div class="section">  
+                            <div class="section-title">📝 Tafsir (Commentary)</div>  
+                            <div class="section-content">${randomAyah.tafsir}</div>  
+                        </div>  
+                    ` : ''}  
+                    
+                    <div class="reference">
+                        📚 Quran ${randomSurah}:${randomAyah.numberInSurah}
+                    </div>
+                `;
+            } catch (error) {
+                showError('Could not load ayah. Please check your API configuration. ' + error.message);
+            }
+        }
+
+        // Fetch Random Hadith
+        async function fetchRandomHadith() {
+            showLoading();
+            
+            try {
+                // Major hadith collections
+                const collections = ['bukhari', 'muslim', 'tirmidhi', 'abudawud', 'nasai', 'ibnmajah', 'malik', 'riyadussalihin'];
+                const randomCollection = collections[Math.floor(Math.random() * collections.length)];
+                
+                // Example endpoint - adjust based on actual Sunnah.com API
+                const response = await fetch(`${API_URLS.hadith}/${randomCollection}/random`);
+                
+                if (!response.ok) throw new Error('Failed to fetch hadith');
+                
+                const data = await response.json();
+                const hadith = data.hadith || data.data;
+                
+                contentDisplay.innerHTML = `
+                    <div class="content-header">
+                        <h3 class="content-title">📜 Hadith from ${hadith.collection || randomCollection}</h3>
+                        <p class="content-meta">
+                            ${hadith.bookName || 'Book of Knowledge'} | 
+                            Hadith #${hadith.hadithNumber || hadith.number}
+                            ${hadith.grade ? `<span class="badge">${hadith.grade}</span>` : ''}
+                        </p>
+                    </div>
+                    
+                    ${hadith.arabicText || hadith.text_arabic ? `
+                        <div class="arabic-text">${hadith.arabicText || hadith.text_arabic}</div>
+                    ` : ''}
+                    
+                    <div class="translation">
+                        <strong>Translation:</strong><br>
+                        ${hadith.text || hadith.translation || hadith.englishText}
+                    </div>
+                    
+                    ${hadith.narrator ? `
+                        <div class="section">
+                            <div class="section-title">👤 Narrator</div>
+                            <div class="section-content">${hadith.narrator}</div>
+                        </div>
+                    ` : ''}
+                    
+                    ${hadith.explanation || hadith.commentary ? `
+                        <div class="section">
+                            <div class="section-title">💡 Explanation</div>
+                            <div class="section-content">${hadith.explanation || hadith.commentary}</div>
+                        </div>
+                    ` : ''}
+                    
+                    ${hadith.chapter ? `
+                        <div class="section">
+                            <div class="section-title">📂 Chapter</div>
+                            <div class="section-content">${hadith.chapter}</div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="reference">
+                        📚 ${hadith.collection || randomCollection} - Book ${hadith.book || ''} - Hadith ${hadith.hadithNumber || hadith.number}
+                        ${hadith.grade ? ` | Grade: ${hadith.grade}` : ''}
+                    </div>
+                `;
+            } catch (error) {
+                showError('Could not load hadith. Please check your API configuration. ' + error.message);
+            }
+        }
+
+        // Optional: Load random content on page load
+        // Uncomment the line below if you want to show random content immediately
+        // window.onload = () => fetchRandomDua();
+    </script>
+</body>
+</html>

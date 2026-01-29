@@ -1,0 +1,35 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>  
+    <script src="https://cdn.rawgit.com/xsoh/moment-hijri/master/moment-hijri.js"></script>  
+    <style>  
+        body {  
+            font-family: Arial, sans-serif;  
+            text-align: center;  
+            margin-top: 50px;  
+        }  
+        .date {  
+            font-size: 24px;  
+            margin-top: 20px;  
+        }  
+    </style>  
+</head>  
+<body>  
+
+     
+    <div class="date" id="hijri-date"></div>  
+
+    <script>  
+        // Get the current Hijri date and format it, setting the locale to English  
+        moment.locale('en'); // Set the locale to English  
+        const currentHijriDate = moment().format("iMMMM iDD, iYYYY"); // Format in Hijri  
+        
+        // Display the Hijri date in the <div>  
+        document.getElementById('hijri-date').innerText = currentHijriDate;  
+    </script>  
+
+</body>  
+</html>
